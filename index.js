@@ -52,14 +52,14 @@ app.post("/users/", async (request, response) => {
     SELECT 
       * 
     FROM 
-      user 
+      userinfo 
     WHERE 
       username = '${username}';`;
   const dbUser = await db.get(selectUserQuery);
   if (dbUser === undefined) {
     const createUserQuery = `
      INSERT INTO
-      user (username, email, password)
+      userinfo (username, email, password)
      VALUES
       (
        '${username}',
@@ -67,21 +67,19 @@ app.post("/users/", async (request, response) => {
        '${hashedPassword}'  
       );`;
     await db.run(createUserQuery);
-    response.send("User created successfully");
+    response.json({ message: "User created successfully" }); // Send JSON response
   } else {
-    response.status(400);
-    response.send("User already exists");
+    response.status(400).json({ error: "User already exists" }); // Send JSON response
   }
 });
 
 // User Login API
 app.post("/login", async (request, response) => {
   const { username, password } = request.body;
-  const selectUserQuery = `SELECT * FROM user WHERE username = '${username}'`;
+  const selectUserQuery = `SELECT * FROM userinfo WHERE username = '${username}'`;
   const dbUser = await db.get(selectUserQuery);
   if (dbUser === undefined) {
-    response.status(400);
-    response.send("Invalid User");
+    response.status(400).json({ error: "Invalid User" }); // Send JSON response
   } else {
     const isPasswordMatched = await bcrypt.compare(password, dbUser.password);
     if (isPasswordMatched === true) {
@@ -89,10 +87,25 @@ app.post("/login", async (request, response) => {
         username: username,
       };
       const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
-      response.send({ jwtToken });
+      response.json({ jwtToken }); // Send JSON response
     } else {
-      response.status(400);
-      response.send("Invalid Password");
+      response.status(400).json({ error: "Invalid Password" }); // Send JSON response
     }
+  }
+});
+
+app.post("/createtable", async (req, res) => {
+  try {
+    await db.exec(`
+            CREATE TABLE userinfo (
+                username TEXT NOT NULL,
+                email TEXT NOT NULL,
+                password TEXT NOT NULL
+            )
+        `);
+    res.json({ message: "Table created successfully" });
+  } catch (error) {
+    console.error("Error creating table:", error);
+    res.status(500).json({ error: "Failed to create table" });
   }
 });

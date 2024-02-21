@@ -5,21 +5,24 @@ Authorization: Bearer JWT_TOKEN
 
 ###
 
-POST https://users-1xnf.onrender.com/users/
+POST http://localhost:3000/users/
 Content-Type: application/json
 
 {   
-    "username":"kalendra",
-    "email":"kalendra@gmail.com",
-    "password": "rahul123"
+    "username":"kvdsfefsf",
+    "email":"k@gmail.com",
+    "password": "k123dsdf"
 }
 
 ###
 
-POST https://users-1xnf.onrender.com/login/
+POST http://localhost:3000/login/
 Content-Type: application/json
 
 {
-    "username":"kalendra",
-    "password": "rahul123"
+    "username":"kvdsf",
+    "password": "k123"
 }
+
+###
+POST http://localhost:3000/createtable/
