@@ -1,0 +1,25 @@
+###
+
+GET http://localhost:3000/books/
+Authorization: Bearer JWT_TOKEN
+
+###
+
+POST http://localhost:3000/users/
+Content-Type: application/json
+
+{   
+    "username":"kalendra",
+    "email":"kalendra@gmail.com",
+    "password": "rahul123"
+}
+
+###
+
+POST http://localhost:3000/login/
+Content-Type: application/json
+
+{
+    "username":"kalendra",
+    "password": "rahul123"
+}
