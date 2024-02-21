@@ -21,8 +21,8 @@ const initializeDBAndServer = async () => {
       filename: dbPath,
       driver: sqlite3.Database,
     });
-    app.listen(3000, () => {
-      console.log("Server Running at http://localhost:3000/");
+    app.listen(5000, () => {
+      console.log("Server Running at http://localhost:5000/");
     });
   } catch (e) {
     console.log(`DB Error: ${e.message}`);
@@ -76,6 +76,7 @@ app.post("/users/", async (request, response) => {
 // User Login API
 app.post("/login", async (request, response) => {
   const { username, password } = request.body;
+  console.log(username, password);
   const selectUserQuery = `SELECT * FROM userinfo WHERE username = '${username}'`;
   const dbUser = await db.get(selectUserQuery);
   if (dbUser === undefined) {
@@ -86,8 +87,10 @@ app.post("/login", async (request, response) => {
       const payload = {
         username: username,
       };
-      const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
-      response.json({ jwtToken }); // Send JSON response
+      //   const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
+      const jwt_token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwicm9sZSI6IlBSSU1FX1VTRVIiLCJpYXQiOjE2MjMwNjU1MzJ9.D13s5wN3Oh59aa_qtXMo3Ec4wojOx0EZh8Xr5C5sRkU";
+      response.json({ jwt_token }); // Send JSON response
     } else {
       response.status(400).json({ error: "Invalid Password" }); // Send JSON response
     }

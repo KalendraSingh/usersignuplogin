@@ -5,23 +5,23 @@ Authorization: Bearer JWT_TOKEN
 
 ###
 
-POST http://localhost:3000/users/
+POST https://userinfo-ap7k.onrender.com/users/
 Content-Type: application/json
 
 {   
-    "username":"kvdsfefsf",
+    "username":"kalendra",
     "email":"k@gmail.com",
-    "password": "k123dsdf"
+    "password": "kalendra123"
 }
 
 ###
 
-POST http://localhost:3000/login/
+POST https://apis.ccbp.in/login/
 Content-Type: application/json
 
 {
-    "username":"kvdsf",
-    "password": "k123"
+    "username":"rahul",
+    "password": "rahul@2021"
 }
 
 ###
